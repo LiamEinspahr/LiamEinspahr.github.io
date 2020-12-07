@@ -1,0 +1,44 @@
+<html>
+
+    <?php 
+    include("DeletePost.php");
+    ?>
+
+    <body>
+
+        <?php
+
+            error_reporting(E_ALL);
+            ini_set("display_errors", 1);
+
+            $mysqli = new mysqli("mysql.eecs.ku.edu", "liameinspahr", "Jocai7xu",
+            "liameinspahr");
+            $iterable = 1;
+
+            /* check connection */
+            if ($mysqli->connect_errno) {
+                printf("Connect failed: %s\n", $mysqli->connect_error);
+                exit();
+            }
+
+            $query = "SELECT `author_id`,`content`,`post_id` FROM Posts";
+            $result = $mysqli->query($query);
+
+            echo "<form method='POST' action='DeletePost.php'>";
+                echo "<table border=1>"; // start a table tag in the HTML
+                    echo "<tr><td>" . "Delete?" . "</td><td>" . "Author ". "</td><td>" . "Post " . "</td></tr>";
+                    while($row = $result->fetch_assoc()){
+                            echo "<tr><td>" . "<input type='checkbox' name='check_list[]' value='" . $row['content'] . "'>" . "</td><td>" . $row['author_id']. "</td><td>" . $row['content'] . "</td></tr>";
+                            $iterable++;
+                    }
+
+                echo "</table>"; //Close the table in HTML
+                echo "<input type='submit' value='Submit'>";
+            echo "</form>";
+
+            $mysqli->close(); //Make sure to close out the database connection
+
+        ?> 
+
+    </body>
+</html>

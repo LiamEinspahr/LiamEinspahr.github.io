@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+  <?php 
+  include("ViewUserPosts.php");
+  ?>
+<body> <!--PHP FORNT END, CREATES A DROP DOWN LIST WITH A SUBMISSION BUTTON!-->
+    <?php
+      $mysqli = new mysqli("mysql.eecs.ku.edu", "liameinspahr", "Jocai7xu",
+      "liameinspahr");
+      /* check connection */
+      if ($mysqli->connect_errno) {
+          printf("Connect failed: %s\n", $mysqli->connect_error);
+          exit();
+      }
+
+      $sql = "SELECT `author_id` FROM Posts";
+      $sql2 = "SELECT `user_id` FROM Users";
+      $result = $mysqli->query($sql);
+      $result2 = $mysqli->query($sql2);
+
+      echo "<form method='POST' action='ViewUserPosts'>";
+      
+        echo "<select id='mytable' name='mytable'>";
+        while ($row = $result->fetch_array()) {
+            echo "<option  value='" . $row['author_id'] . "'>" . $row['author_id'] . "</option>";
+        }
+        while ($row = $result2->fetch_array()) {
+          echo "<option  value='" . $row['user_id'] . "'>" . $row['user_id'] . "</option>";
+      }
+        echo "</select>";
+        echo "<input type='submit' value='Submit'>";
+        echo "</form>";
+      ?>
+</body>
+</html>
